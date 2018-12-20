@@ -117,7 +117,7 @@ server {
 
     location / {
         root   /usr/share/nginx/html;
-        index  index.html index.htm;
+        index  index.php index.html index.htm;
     }
 
     #error_page  404              /404.html;
@@ -181,7 +181,7 @@ server {
 
     location / {
         root   /usr/share/nginx/html;
-        index  index.html index.htm;
+        index  index.php index.html index.htm;
     }
 
     #error_page  404              /404.html;
@@ -238,6 +238,8 @@ EOF
         echo "phpのタイムゾーンを変更"
         echo "sed -i -e s|;date.timezone =|date.timezone = Asia/Tokyo| /etc/php.ini"
         sed -i -e "s|;date.timezone =|date.timezone = Asia/Tokyo|" /etc/php.ini
+
+        sed -i -e "s|;session.save_path = "/tmp" =|session.save_path = "/var/lib/php/session"|" /etc/php.ini
         end_message
 
 
@@ -347,6 +349,11 @@ character-set-server = utf8
 EOF
 
         #phpmyadminのファイル修正
+        start_message
+        cd /usr/share/nginx/html
+        ln -s /usr/share/phpMyAdmin/ phpmyadmin
+        chown -R root.nginx /var/lib/php/session
+        end_message
 
         #ユーザー作成
         start_message
