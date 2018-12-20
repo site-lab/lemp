@@ -223,7 +223,7 @@ EOF
         echo "phpとPHP-FPMをインストールします"
         echo ""
         start_message
-        yum -y install --enablerepo=remi,remi-php72 php php-mbstring php-xml php-xmlrpc php-gd php-pdo php-pecl-mcrypt php-mysqlnd php-pecl-mysql php-fpm
+        yum -y install --enablerepo=remi,remi-php72 php php-mbstring php-xml php-xmlrpc php-gd php-pdo php-pecl-mcrypt php-mysqlnd php-pecl-mysql php-fpm phpmyadmin
         echo "phpのバージョン確認"
         echo ""
         php -v
