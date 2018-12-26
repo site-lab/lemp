@@ -58,6 +58,14 @@ if [ -e /etc/redhat-release ]; then
         yum -y install mod_ssl
         end_message
 
+        #MariaDBを削除
+        start_message
+        echo "MariaDBを削除します"
+        echo ""
+        rm -rf /var/lib/mysql/
+        end_message
+
+
         #公式リポジトリの追加
         start_message
         yum -y localinstall http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
