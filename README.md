@@ -35,3 +35,15 @@ wgetがない場合は **yum -y install wget** でインストールしてくだ
 ## [nginx_php72_mariadb103_drn.sh](https://github.com/site-lab/lemp/blob/master/nginx_php72_mariadb103_drn.sh)
 nginx+PHP7.2+MariaDB10.3をインストールします。
 PHP7は **FastCGI版** となります
+
+## [nginx_php73_mariadb103_drn.sh](https://github.com/site-lab/lemp/blob/master/nginx_php73_mariadb103_drn.sh)
+nginx+PHP7.3+MariaDB10.3をインストールします。
+PHP7は **FastCGI版** となります
+
+## [nginx_php72_mysql57_drn.sh](https://github.com/site-lab/lemp/blob/master/nginx_php72_mysql57_drn.sh)
+nginx+PHP7.2+MySQL5.7をインストールします。
+PHP7は **FastCGI版** となります
+
+## [nginx_php73_mysql57_drn.sh](https://github.com/site-lab/lemp/blob/master/nginx_php72_mysql57_drn.sh)
+nginx+PHP7.3+MySQL5.7をインストールします。
+PHP7は **FastCGI版** となります
