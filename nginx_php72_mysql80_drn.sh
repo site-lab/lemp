@@ -336,7 +336,6 @@ slow_query_log=ON
 slow_query_log_file=/var/log/mysql-slow.log
 long_query_time=0.01
 EOF
-EOF
         end_message
 
         #phpmyadminのファイル修正
