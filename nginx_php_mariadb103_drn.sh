@@ -12,7 +12,7 @@ URL：https://www.logw.jp/
 目的：システム更新+nginxのインストール
 ・nginx
 ・mod_sslのインストール
-・php7系のインストール
+・php7.xのインストール
 ・centosユーザーの作成
 
 COMMENT
