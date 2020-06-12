@@ -44,6 +44,7 @@ wgetがない場合は **yum -y install wget** でインストールしてくだ
 
 ## [nginx_php_mariadb103_drn.sh](https://github.com/site-lab/lemp/blob/master/nginx_php_mariadb103_drn.sh)
 nginx+PHP7.x+MariaDB10.3をインストールします。
+
 **PHP**
 - 7.2系：2020年中に削除予定
 - 7.3系
@@ -51,6 +52,7 @@ nginx+PHP7.x+MariaDB10.3をインストールします。
 
 ## [nginx_php_mysql.sh](https://github.com/site-lab/lemp/blob/master/nginx_php_mysql.sh)
 nginx+PHP7.x+MySQLをインストールします。
+
 **PHP**
 - 7.2系：2020年中に削除予定
 - 7.3系
