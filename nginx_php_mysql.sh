@@ -229,23 +229,11 @@ EOF
 
         # php7系のインストール
         PS3="インストールしたいPHPのバージョンを選んでください > "
-        ITEM_LIST="PHP7.2 PHP7.3 PHP7.4"
+        ITEM_LIST="PHP7.3 PHP7.4"
 
         select selection in $ITEM_LIST
         do
-          if [ $selection = "PHP7.2" ]; then
-            # php7.2のインストール
-            echo "php7.2とPHP-FPMをインストールしますす"
-            echo ""
-            start_message
-            yum -y install --enablerepo=remi,remi-php72 php php-mbstring php-xml php-xmlrpc php-gd php-pdo php-pecl-mcrypt php-mysqlnd php-pecl-mysql php-fpm phpmyadmin
-            echo "phpのバージョン確認"
-            echo ""
-            php -v
-            echo ""
-            end_message
-            break
-          elif [ $selection = "PHP7.3" ]; then
+          if [ $selection = "PHP7.3" ]; then
             # php7.3のインストール
             echo "php7.3とPHP-FPMをインストールします"
             echo ""
@@ -497,16 +485,7 @@ EOF
         chown -R centos:nginx /usr/share/nginx/html
         end_message
 
-        #php-fpmの起動
-        start_message
-        echo "php-fpmの起動"
-        echo ""
-        systemctl start php-fpm
-        systemctl status php-fpm
-        end_message
-
-
-        #nginxの起動
+        #nginx、php-fpm、MySQLの起動
         start_message
         echo "nginxの起動"
         echo ""
