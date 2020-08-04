@@ -477,8 +477,12 @@ EOF
         echo "centosユーザーを作成します"
         USERNAME='centos'
         PASSWORD=$(more /dev/urandom  | tr -d -c '[:alnum:]' | fold -w 10 | head -1)
+        #DBrootユーザーのパスワード
+        RPASSWORD=$(more /dev/urandom  | tr -dc '12345678abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ,.+\-\!' | fold -w 12 | grep -i [12345678] | grep -i '[,.+\-\!]' | head -n 1)
+        #DBuser(centos)パスワード
+        UPASSWORD=$(more /dev/urandom  | tr -dc '12345678abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ,.+\-\!' | fold -w 12 | grep -i [12345678] | grep -i '[,.+\-\!]' | head -n 1)
 
-        useradd -m -G apache -s /bin/bash "${USERNAME}"
+        useradd -m -G nginx -s /bin/bash "${USERNAME}"
         echo "${PASSWORD}" | passwd --stdin "${USERNAME}"
         echo "パスワードは"${PASSWORD}"です。"
 
@@ -507,16 +511,60 @@ EOF
         echo "nginxの起動"
         echo ""
         systemctl start nginx
+        systemctl start php-fpm
+        systemctl start mysqld
         systemctl status nginx
+        systemctl status php-fpm
+        systemctl status mysqld
         end_message
 
         #自動起動の設定
         start_message
         systemctl enable nginx
         systemctl enable php-fpm
+        systemctl enable mysqld
         systemctl list-unit-files --type=service | grep nginx
         systemctl list-unit-files --type=service | grep php-fpm
+        systemctl list-unit-files --type=service | grep mysqld
         end_message
+
+        #パスワード設定
+        start_message
+        DB_PASSWORD=$(grep "A temporary password is generated" /var/log/mysqld.log | sed -s 's/.*root@localhost: //')
+        #sed -i -e "s|#password =|password = '${DB_PASSWORD}'|" /etc/my.cnf
+        mysql -u root -p${DB_PASSWORD} --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${RPASSWORD}'; flush privileges;"
+        echo ${RPASSWORD}
+
+cat <<EOF >/etc/createdb.sql
+CREATE DATABASE centos;
+CREATE USER 'centos'@'localhost' IDENTIFIED BY '${UPASSWORD}';
+GRANT ALL PRIVILEGES ON centos.* TO 'centos'@'localhost';
+FLUSH PRIVILEGES;
+SELECT user, host FROM mysql.user;
+EOF
+mysql -u root -p${RPASSWORD}  -e "source /etc/createdb.sql"
+
+        end_message
+
+        #ファイルを保存
+        cat <<EOF >/etc/my.cnf.d/centos.cnf
+[client]
+user = centos
+password = ${UPASSWORD}
+host = localhost
+EOF
+
+        systemctl restart mysqld.service
+
+        #ファイルの保存
+        start_message
+        echo "パスワードなどを保存"
+        cat <<EOF >/root/pass.txt
+root = ${RPASSWORD}
+centos = ${UPASSWORD}
+EOF
+        end_message
+
 
         #firewallのポート許可
         echo "http(80番)とhttps(443番)の許可をしてます"
@@ -558,14 +606,12 @@ EOF
         になっているため、ユーザー名とグループの変更が必要な場合は変更してください
 
         -----------------
-        phpmyadmin
-        http://Iアドレス/phpmyadmin/
-        ※パスワードなしログインは禁止となっています。rootのパスワード設定してからログインしてください
-        -----------------
 
 EOF
 
         echo "centosユーザーのパスワードは"${PASSWORD}"です。"
+        echo "データベースのrootユーザーのパスワードは"${RPASSWORD}"です。"
+        echo "データベースのcentosユーザーのパスワードは"${UPASSWORD}"です。"
       else
         echo "CentOS7ではないため、このスクリプトは使えません。このスクリプトのインストール対象はCentOS7です。"
       fi
