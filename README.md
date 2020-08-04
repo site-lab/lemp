@@ -1,5 +1,5 @@
 # lemp
-nginx+DB+PHPなどの環境を用意していきます
+nginx+PHP+Databaseなどの環境を用意していきます
 
 ## テスト環境
 ### conohaのVPS
@@ -17,9 +17,14 @@ nginx+DB+PHPなどの環境を用意していきます
 * CPU：1コア
 * SSD：20GB
 
+### IDCFクラウド
+* メモリ：1GB
+* CPU：1コア
+* SSD：15GB
+
 ### 実行方法
 SFTPなどでアップロードをして、rootユーザーもしくはsudo権限で実行
-wgetを使用する場合は[環境構築スクリプトを公開してます](https://www.logw.jp/cloudserver/8886.html)を閲覧してください。
+wgetを使用する場合は[Buildree](https://buildree.com/)を閲覧してください。
 wgetがない場合は **yum -y install wget** でインストールしてください
 
 **sh ファイル名.sh** ←同じ階層にある場合
@@ -37,18 +42,22 @@ wgetがない場合は **yum -y install wget** でインストールしてくだ
 * centosユーザーの作成
 * スロークエリ有効化
 
-## [nginx_php72_mariadb103_drn.sh](https://github.com/site-lab/lemp/blob/master/nginx_php72_mariadb103_drn.sh)
-nginx+PHP7.2+MariaDB10.3をインストールします。
-PHP7は **FastCGI版** となります
+## [nginx_php_mariadb103_drn.sh](https://github.com/site-lab/lemp/blob/master/nginx_php_mariadb103_drn.sh)
+nginx+PHP7.x+MariaDB10.3をインストールします。
 
-## [nginx_php73_mariadb103_drn.sh](https://github.com/site-lab/lemp/blob/master/nginx_php73_mariadb103_drn.sh)
-nginx+PHP7.3+MariaDB10.3をインストールします。
-PHP7は **FastCGI版** となります
+**PHP**
+- 7.2系：2020年中に削除予定
+- 7.3系
+- 7.4系
 
-## [nginx_php72_mysql57_drn.sh](https://github.com/site-lab/lemp/blob/master/nginx_php72_mysql57_drn.sh)
-nginx+PHP7.2+MySQL5.7をインストールします。
-PHP7は **FastCGI版** となります
+## [nginx_php_mysql.sh](https://github.com/site-lab/lemp/blob/master/nginx_php_mysql.sh)
+nginx+PHP7.x+MySQLをインストールします。
 
-## [nginx_php73_mysql57_drn.sh](https://github.com/site-lab/lemp/blob/master/nginx_php72_mysql57_drn.sh)
-nginx+PHP7.3+MySQL5.7をインストールします。
-PHP7は **FastCGI版** となります
+**PHP**
+- 7.2系：2020年中に削除予定
+- 7.3系
+- 7.4系
+
+**MySQL**
+- 5.7
+- 8.0
