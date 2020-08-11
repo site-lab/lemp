@@ -63,7 +63,7 @@ if [ -e /etc/redhat-release ]; then
         echo ""
 
         start_message
-        yum -y update
+        #yum -y update
         end_message
 
         #nginxの設定ファイルを作成
@@ -634,11 +634,39 @@ EOF
         systemctl list-unit-files --type=service | grep mariadb
         end_message
 
+        #パスワード設定
+        start_message
+        #DB_PASSWORD=$(grep "A temporary password is generated" /var/log/mysqld.log | sed -s 's/.*root@localhost: //')
+        #sed -i -e "s|#password =|password = '${DB_PASSWORD}'|" /etc/my.cnf
+        #mysql -u root  --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${RPASSWORD}'; flush privileges;"
+        #echo ${RPASSWORD}
+
+cat <<EOF >/etc/createdb.sql
+CREATE DATABASE centos;
+CREATE USER 'centos'@'localhost' IDENTIFIED BY '${UPASSWORD}';
+GRANT ALL PRIVILEGES ON centos.* TO 'centos'@'localhost';
+FLUSH PRIVILEGES;
+SELECT user, host FROM mysql.user;
+EOF
+mysql -u root -p${RPASSWORD}  -e "source /etc/createdb.sql"
+
+        end_message
+
+        #ファイルを保存
+        cat <<EOF >/etc/my.cnf.d/centos.cnf
+[client]
+user = centos
+password = ${UPASSWORD}
+host = localhost
+EOF
+
+        systemctl restart mysqld.service
+
         #ファイルの保存
         start_message
         echo "パスワードなどを保存"
         cat <<EOF >/root/pass.txt
-root = パスワード設定なし。空エンター
+root = ${RPASSWORD}
 centos = ${UPASSWORD}
 EOF
         end_message
@@ -692,7 +720,7 @@ EOF
 EOF
 
         echo "centosユーザーのパスワードは"${PASSWORD}"です。"
-        echo "データベースのrootユーザーのパスワードは「空エンター」です。"
+        echo "データベースのrootユーザーのパスワードは"${RPASSWORD}"です。"
         echo "データベースのcentosユーザーのパスワードは"${UPASSWORD}"です。"
 
       else
