@@ -63,7 +63,7 @@ if [ -e /etc/redhat-release ]; then
         echo ""
 
         start_message
-        #yum -y update
+        yum -y update
         end_message
 
         #nginxの設定ファイルを作成
@@ -666,7 +666,7 @@ EOF
         start_message
         echo "パスワードなどを保存"
         cat <<EOF >/root/pass.txt
-root = ${RPASSWORD}
+root = パスワードなし
 centos = ${UPASSWORD}
 EOF
         end_message
@@ -720,7 +720,7 @@ EOF
 EOF
 
         echo "centosユーザーのパスワードは"${PASSWORD}"です。"
-        echo "データベースのrootユーザーのパスワードは"${RPASSWORD}"です。"
+        echo "データベースのrootユーザーのパスワードは｢空Enter｣です。"
         echo "データベースのcentosユーザーのパスワードは"${UPASSWORD}"です。"
 
       else
